@@ -4,7 +4,7 @@ using UnityEngine;
 public class Left : PlayerState
 {
     private MobileInput playerInput;
-    private PlayerController playerController;
+    private PlayerMovement playerController;
 
     public Left(Enumerators.PlayerState stateID, StatesManager<Enumerators.PlayerState> stateManager) : base(stateID, stateManager)
     {

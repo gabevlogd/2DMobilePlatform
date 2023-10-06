@@ -6,7 +6,7 @@ using UnityEngine;
 public class Idle : PlayerState
 {
     private MobileInput playerInput;
-    private PlayerController playerController;
+    private PlayerMovement playerController;
 
     public Idle(Enumerators.PlayerState stateID, StatesManager<Enumerators.PlayerState> stateManager) : base(stateID, stateManager)
     {

@@ -3,13 +3,18 @@ using UnityEngine;
 
 public class Jump : PlayerState
 {
-    private MobileInput playerInput;
-    private PlayerController playerController;
+    protected MobileInput playerInput;
+    protected PlayerMovement playerController;
 
-    private bool inAir;
+    protected bool inAir;
+    protected bool ceilingHitted;
+    protected bool isBouncing;
+    protected float startBounceTime;
+    protected float inputDelayTime;
 
     public Jump(Enumerators.PlayerState stateID, StatesManager<Enumerators.PlayerState> stateManager) : base(stateID, stateManager)
     {
+        inputDelayTime = 1f;
         playerInput = m_playerStateMachine.PlayerData.PlayerInput;
         playerController = m_playerStateMachine.PlayerData.PlayerController;
     }
@@ -25,16 +30,54 @@ public class Jump : PlayerState
         playerController.ResetTime();
     }
 
+    public override void OnExit()
+    {
+        base.OnExit();
+        inAir = false;
+        ceilingHitted = false;
+    }
+
     public override void OnCollisionEnter(Collision2D collision)
     {
         base.OnCollisionEnter(collision);
-        if (Mathf.Approximately(Vector2.Dot(collision.GetContact(0).normal, Vector2.up), 1f) && collision.gameObject.layer == 6) inAir = false;
+
+        if (collision.GetContact(0).normal.x > 0.7f)
+        {
+            playerController.MoveRight();
+            startBounceTime = Time.time;
+            isBouncing = true;
+        }
+
+        if (collision.GetContact(0).normal.x < -0.7f)
+        {
+            playerController.MoveLeft();
+            startBounceTime = Time.time;
+            isBouncing = true;
+        }
+
+        if (collision.GetContact(0).normal.y > 0.5f)
+        {
+            if (collision.gameObject.layer == 6)
+            {
+                inAir = false;
+                ceilingHitted = false;
+                return;
+            }
+
+        }
+        else if (collision.GetContact(0).normal.y < 0.5f)
+        {
+            ceilingHitted = true;
+            playerController.ResetTime();
+        }
     }
 
     public override void OnFixedUpdate()
     {
         base.OnFixedUpdate();
-        playerController.PerformJump();
+
+        if (ceilingHitted) playerController.PerformFreeFall();
+        else playerController.PerformJump();
     }
 
     public override void OnUpdate()
@@ -73,8 +116,16 @@ public class Jump : PlayerState
         }
     }
 
-    private void CheckHorizzontalInput()
+    protected void CheckHorizzontalInput()
     {
+        if (!playerInput.LeftButton.IsPressed && !playerInput.RightButton.IsPressed) playerController.StaySillHorizontally();
+
+        if (isBouncing)
+        {
+            if ((Time.time - startBounceTime) >= inputDelayTime) isBouncing = false;
+            return;
+        }
+
         if (playerInput.LeftButton.IsPressed) playerController.MoveLeft();
         if (playerInput.RightButton.IsPressed) playerController.MoveRight();
     }

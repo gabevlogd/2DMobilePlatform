@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     {
         Data.Transform = transform;
         Data.Rigidbody = GetComponent<Rigidbody2D>();
-        Data.PlayerController = new PlayerController(ref Data);
+        Data.PlayerController = new PlayerMovement(ref Data);
         Data.PlayerStateMachine = new PlayerStateMachine(ref Data);
     }
 
@@ -49,7 +49,7 @@ public struct PlayerData
 
     public MobileInput PlayerInput;
 
-    public PlayerController PlayerController;
+    public PlayerMovement PlayerController;
 
     
 
