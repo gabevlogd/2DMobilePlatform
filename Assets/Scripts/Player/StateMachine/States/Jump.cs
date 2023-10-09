@@ -43,13 +43,14 @@ public class Jump : PlayerState
 
         if (collision.GetContact(0).normal.x > 0.7f)
         {
+            //Debug.Log("1");
             playerController.MoveRight();
             startBounceTime = Time.time;
             isBouncing = true;
         }
-
-        if (collision.GetContact(0).normal.x < -0.7f)
+        else if (collision.GetContact(0).normal.x < -0.7f)
         {
+            //Debug.Log("2");
             playerController.MoveLeft();
             startBounceTime = Time.time;
             isBouncing = true;
@@ -59,6 +60,7 @@ public class Jump : PlayerState
         {
             if (collision.gameObject.layer == 6)
             {
+                //Debug.Log("3");
                 inAir = false;
                 ceilingHitted = false;
                 return;
@@ -67,6 +69,7 @@ public class Jump : PlayerState
         }
         else if (collision.GetContact(0).normal.y < 0.5f)
         {
+            //Debug.Log("4");
             ceilingHitted = true;
             playerController.ResetTime();
         }
@@ -76,7 +79,7 @@ public class Jump : PlayerState
     {
         base.OnFixedUpdate();
 
-        if (ceilingHitted) playerController.PerformFreeFall();
+        if (ceilingHitted) playerController.PerformFreeFallBounce();
         else playerController.PerformJump();
     }
 

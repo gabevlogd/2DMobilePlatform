@@ -16,13 +16,15 @@ public class Right : PlayerState
     {
         base.OnEnter();
         HandleInput();
-        playerController.MoveRight();
+        
     }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
         HandleInput();
+        playerController.GravityFallDetection();
+        playerController.MoveRight();
     }
 
     public override void HandleInput()

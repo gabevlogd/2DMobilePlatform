@@ -18,13 +18,16 @@ public class Idle : PlayerState
     {
         base.OnEnter();
         HandleInput();
-        playerController.StaySill();
+        //playerController.StaySill();
+        
     }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
         HandleInput();
+        playerController.GravityFallDetection();
+        playerController.StaySillHorizontally();
     }
 
     public override void HandleInput()
