@@ -5,18 +5,23 @@ public class Left : PlayerState
 {
     private MobileInput playerInput;
     private PlayerMovement playerController;
+    private SpriteRenderer spriteRenderer;
+    private Weapon playerWeapon;
 
     public Left(Enumerators.PlayerState stateID, StatesManager<Enumerators.PlayerState> stateManager) : base(stateID, stateManager)
     {
         playerInput = m_playerStateMachine.PlayerData.PlayerInput;
         playerController = m_playerStateMachine.PlayerData.PlayerController;
+        spriteRenderer = m_playerStateMachine.PlayerData.SpriteRenderer;
+        playerWeapon = m_playerStateMachine.PlayerData.Weapon;
     }
 
     public override void OnEnter()
     {
         base.OnEnter();
         HandleInput();
-        
+        spriteRenderer.flipX = true;
+
     }
 
     public override void OnUpdate()
@@ -24,7 +29,8 @@ public class Left : PlayerState
         base.OnUpdate();
         HandleInput();
         playerController.MoveLeft();
-        playerController.GravityFallDetection();
+        //playerController.GravityFallDetection();
+        if (playerInput.AttackButton.IsPressed) playerWeapon.Shoot(Vector2.left);
     }
 
     public override void HandleInput()

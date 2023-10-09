@@ -5,6 +5,7 @@ public class Jump : PlayerState
 {
     protected MobileInput playerInput;
     protected PlayerMovement playerController;
+    private SpriteRenderer spriteRenderer;
 
     protected bool inAir;
     protected bool ceilingHitted;
@@ -17,6 +18,7 @@ public class Jump : PlayerState
         inputDelayTime = 1f;
         playerInput = m_playerStateMachine.PlayerData.PlayerInput;
         playerController = m_playerStateMachine.PlayerData.PlayerController;
+        spriteRenderer = m_playerStateMachine.PlayerData.SpriteRenderer;
     }
 
     public override void OnEnter()
@@ -129,8 +131,17 @@ public class Jump : PlayerState
             return;
         }
 
-        if (playerInput.LeftButton.IsPressed) playerController.MoveLeft();
-        if (playerInput.RightButton.IsPressed) playerController.MoveRight();
+        if (playerInput.LeftButton.IsPressed)
+        {
+            playerController.MoveLeft();
+            if (!spriteRenderer.flipX) spriteRenderer.flipX = true;
+        }
+
+        if (playerInput.RightButton.IsPressed)
+        {
+            playerController.MoveRight();
+            if (spriteRenderer.flipX) spriteRenderer.flipX = false;
+        }
     }
 
 }

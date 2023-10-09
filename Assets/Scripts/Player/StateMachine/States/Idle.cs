@@ -7,11 +7,15 @@ public class Idle : PlayerState
 {
     private MobileInput playerInput;
     private PlayerMovement playerController;
+    private Weapon playerWeapon;
+    private SpriteRenderer spriteRenderer;
 
     public Idle(Enumerators.PlayerState stateID, StatesManager<Enumerators.PlayerState> stateManager) : base(stateID, stateManager)
     {
         playerInput = m_playerStateMachine.PlayerData.PlayerInput;
         playerController = m_playerStateMachine.PlayerData.PlayerController;
+        playerWeapon = m_playerStateMachine.PlayerData.Weapon;
+        spriteRenderer = m_playerStateMachine.PlayerData.SpriteRenderer;
     }
 
     public override void OnEnter()
@@ -26,8 +30,9 @@ public class Idle : PlayerState
     {
         base.OnUpdate();
         HandleInput();
-        playerController.GravityFallDetection();
+        //playerController.GravityFallDetection();
         playerController.StaySillHorizontally();
+        CheckShootTrigger();
     }
 
     public override void HandleInput()
@@ -50,6 +55,15 @@ public class Idle : PlayerState
         {
             m_playerStateMachine.ChangeState(Enumerators.PlayerState.Jump);
             return;
+        }
+    }
+
+    private void CheckShootTrigger()
+    {
+        if (playerInput.AttackButton.IsPressed)
+        {
+            if (spriteRenderer.flipX) playerWeapon.Shoot(Vector2.left);
+            else playerWeapon.Shoot(Vector2.right);
         }
     }
 

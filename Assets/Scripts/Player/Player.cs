@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     {
         Data.Transform = transform;
         Data.Rigidbody = GetComponent<Rigidbody2D>();
+        Data.SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
         Data.PlayerController = new PlayerMovement(ref Data);
         Data.PlayerStateMachine = new PlayerStateMachine(ref Data);
     }
@@ -24,6 +25,8 @@ public class Player : MonoBehaviour
     private void Update()
     {
         Data.PlayerStateMachine.CurrentState.OnUpdate();
+        if (Input.GetKeyDown(KeyCode.D)) Data.Weapon.Shoot(Vector2.right);
+        if (Input.GetKeyDown(KeyCode.A)) Data.Weapon.Shoot(Vector2.left);
     }
 
     private void FixedUpdate()
@@ -45,11 +48,16 @@ public struct PlayerData
     [HideInInspector]
     public Rigidbody2D Rigidbody;
 
+    [HideInInspector]
+    public SpriteRenderer SpriteRenderer;
+
     public PlayerStateMachine PlayerStateMachine;
 
     public MobileInput PlayerInput;
 
     public PlayerMovement PlayerController;
+
+    public Weapon Weapon;
 
     
 
