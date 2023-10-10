@@ -20,7 +20,7 @@ namespace Gabevlogd.Patterns
 
         public virtual void OnEnter()
         {
-            //Debug.Log("OnEnter " + StateID);
+            Debug.Log("OnEnter " + StateID);
 
         }
 

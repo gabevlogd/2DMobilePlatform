@@ -5,18 +5,18 @@ using UnityEngine;
 
 public class Chase : EnemyState
 {
-    private Vector3 walkableAreaPivot;
+    //private Vector3 walkableAreaPivot;
     private EnemyMovementBase enemyController;
     private Transform enemyTransform;
-    private float maxDistanceFromWalkableArea;
+    //private float maxDistanceFromWalkableArea;
     private float maxDistanceFromPlayer;
 
     public Chase(Enumerators.EnemyState stateID, StatesManager<Enumerators.EnemyState> stateManager) : base(stateID, stateManager)
     {
-        walkableAreaPivot = enemyStateMachine.EnemyData.AvailableArea.position;
+        //walkableAreaPivot = enemyStateMachine.EnemyData.AvailableArea.position;
         enemyController = enemyStateMachine.EnemyData.EnemyMovementBase;
         enemyTransform = enemyStateMachine.EnemyData.EnemyTransform;
-        maxDistanceFromWalkableArea = 12f;
+        //maxDistanceFromWalkableArea = 12f;
         maxDistanceFromPlayer = 11f;
     }
 
@@ -37,10 +37,8 @@ public class Chase : EnemyState
     {
         base.HandleChangeState();
         //if (Vector3.Distance(enemyTransform.position, walkableAreaPivot) >= maxDistanceFromWalkableArea)
-        if (Mathf.Abs((enemyTransform.position - walkableAreaPivot).magnitude) >= maxDistanceFromWalkableArea)
-            enemyStateMachine.ChangeState(Enumerators.EnemyState.Patrol);
-        //else if (Vector3.Distance(enemyTransform.position, Player.GetTransform().position) >= maxDistanceFromPlayer)
-        else if (Mathf.Abs((enemyTransform.position - Player.GetTransform().position).magnitude) >= maxDistanceFromPlayer)
+        //    enemyStateMachine.ChangeState(Enumerators.EnemyState.Patrol);
+        /*else */if (Vector3.Distance(enemyTransform.position, Player.GetTransform().position) >= maxDistanceFromPlayer)
             enemyStateMachine.ChangeState(Enumerators.EnemyState.Patrol);
 
     }

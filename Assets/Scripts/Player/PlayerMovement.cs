@@ -25,7 +25,7 @@ public class PlayerMovement
     }
 
     public void ResetTime() => time = 0f;
-    public void PerformFreeFall() => m_rigidbody.velocity = new Vector2(m_rigidbody.velocity.x, - (4.81f * GetTime()));
+    public void PerformFreeFall() => m_rigidbody.velocity = new Vector2(m_rigidbody.velocity.x, -9.81f * GetTime());
 
     /// <summary>
     /// Performs the player's fall when hitting an obstacle in the air

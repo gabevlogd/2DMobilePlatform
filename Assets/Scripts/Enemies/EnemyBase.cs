@@ -45,6 +45,8 @@ public struct EnemyData
     public EnemyMovementBase EnemyMovementBase;
     [HideInInspector]
     public Transform EnemyTransform;
-    public Transform AvailableArea;
+    //public Transform AvailableArea;
     public List<Transform> PatrolNodes;
+    public bool NotAggressiveEnemy;
+    public float Speed;
 }

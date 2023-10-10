@@ -32,6 +32,7 @@ public class Patrol : EnemyState
     protected override void HandleChangeState()
     {
         base.HandleChangeState();
+        if (enemyStateMachine.EnemyData.NotAggressiveEnemy) return;
         if (Vector3.Distance(Player.GetTransform().position, enemyTransform.position) <= triggerChaseDistance)
             enemyStateMachine.ChangeState(Enumerators.EnemyState.Chase);
     }

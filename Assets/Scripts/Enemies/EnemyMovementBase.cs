@@ -14,7 +14,7 @@ public class EnemyMovementBase
     {
         enemyTransform = enemyData.EnemyTransform;
         patrolNodesIndex = 0;
-        speed = 4f;
+        speed = enemyData.Speed;
         patrolNodes = new List<Vector3>();
         foreach (Transform node in enemyData.PatrolNodes)
         {
