@@ -12,8 +12,6 @@ public class MobileInput
     public MyButton JumpButton;
     public MyButton AttackButton;
 
-    public int Horizzontal;
-
     public bool AnyInput() => LeftButton.IsPressed || RightButton.IsPressed || JumpButton.IsPressed;
 }
 

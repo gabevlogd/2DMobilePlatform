@@ -7,7 +7,7 @@ public class Idle : PlayerState
 {
     private MobileInput playerInput;
     private PlayerMovement playerController;
-    private Weapon playerWeapon;
+    private WeaponBase playerWeapon;
     private SpriteRenderer spriteRenderer;
 
     public Idle(Enumerators.PlayerState stateID, StatesManager<Enumerators.PlayerState> stateManager) : base(stateID, stateManager)
@@ -22,7 +22,6 @@ public class Idle : PlayerState
     {
         base.OnEnter();
         HandleInput();
-        //playerController.StaySill();
         
     }
 
@@ -30,15 +29,14 @@ public class Idle : PlayerState
     {
         base.OnUpdate();
         HandleInput();
-        //playerController.GravityFallDetection();
+        playerController.GravityFallDetection();
         playerController.StaySillHorizontally();
         CheckShootTrigger();
     }
 
-    public override void HandleInput()
+    protected override void HandleInput()
     {
         base.HandleInput();
-
         if (playerInput.LeftButton.IsPressed)
         {
             m_playerStateMachine.ChangeState(Enumerators.PlayerState.MoveLeft);

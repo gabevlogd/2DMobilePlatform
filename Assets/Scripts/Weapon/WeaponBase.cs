@@ -3,33 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Weapon
+public class WeaponBase
 {
     [SerializeField]
-    private Bullet Bullet;
+    protected BulletBase Bullet;
     [SerializeField]
-    private Transform rightSpawn;
+    protected Transform rightSpawn;
     [SerializeField]
-    private Transform leftSpawn;
+    protected Transform leftSpawn;
     [SerializeField]
-    private float bulletSpeed;
+    protected float bulletSpeed;
     [SerializeField]
-    private float weaponCooldown;
+    protected float weaponCooldown;
 
-    private bool canShoot = true;
+    protected bool canShoot = true;
 
-    public void Shoot(Vector2 direction)
+    public virtual void Shoot(Vector2 direction)
     {
         if (!canShoot) return;
 
         if (direction == Vector2.right)
         {
-            Bullet bullet = GameManager.Instantiate(Bullet, rightSpawn.position, Quaternion.identity);
+            BulletBase bullet = GameManager.Instantiate(Bullet, rightSpawn.position, Quaternion.identity);
             bullet.Rigidbody.velocity = direction * bulletSpeed;
         }
         else
         {
-            Bullet bullet = GameManager.Instantiate(Bullet, leftSpawn.position, Quaternion.identity);
+            BulletBase bullet = GameManager.Instantiate(Bullet, leftSpawn.position, Quaternion.identity);
             bullet.Rigidbody.velocity = direction * bulletSpeed;
             bullet.SpriteRenderer.flipY = true;
         }
@@ -37,7 +37,7 @@ public class Weapon
         GameManager.Instance.StartCoroutine(StartCooldown());
     }
 
-    private IEnumerator StartCooldown()
+    protected IEnumerator StartCooldown()
     {
         canShoot = false;
         yield return new WaitForSeconds(weaponCooldown);

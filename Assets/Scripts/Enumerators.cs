@@ -12,4 +12,18 @@ public class Enumerators
         DoubleJump,
         Idle,
     }
+
+    public enum EnemyState
+    {
+        Patrol,
+        Chase
+    }
+
+    public enum Events
+    {
+        LifeChange,
+        ScoreChange,
+        PlayerHitted,
+        GameOver
+    }
 }

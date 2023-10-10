@@ -31,6 +31,7 @@ public class PlayerMovement
     /// Performs the player's fall when hitting an obstacle in the air
     /// </summary>
     public void PerformFreeFallBounce() => m_rigidbody.velocity = new Vector2(m_rigidbody.velocity.x * 0.8f, Physics2D.gravity.y * GetTime());
+    public void PerformEnemyBounce() => PerformJump();
     public void PerformJump() => m_rigidbody.velocity = new Vector2(m_rigidbody.velocity.x, startJumpVelocity + Physics2D.gravity.y * GetTime());
     public void StaySill() => m_rigidbody.velocity = Vector2.zero;
     public void MoveLeft() => m_rigidbody.velocity = new Vector2(Mathf.Lerp(m_rigidbody.velocity.x, -speed, acceleration * Time.deltaTime), m_rigidbody.velocity.y);
@@ -59,9 +60,10 @@ public class PlayerMovement
         //Debug.DrawRay(m_rigidbody.transform.position + new Vector3(0.3f, 0f, 0f), Vector3.down);
         //Debug.DrawRay(m_rigidbody.transform.position + new Vector3(-0.3f, 0f, 0f), Vector3.down);
 
-        int layerToIgnore = 1 << 7;
-        RaycastHit2D hitInfoRight = Physics2D.Raycast(m_rigidbody.transform.position + new Vector3(0.3f, 0f, 0f), Vector2.down, Mathf.Infinity, ~layerToIgnore);
-        RaycastHit2D hitInfoLeft = Physics2D.Raycast(m_rigidbody.transform.position + new Vector3(-0.3f, 0f, 0f), Vector2.down, Mathf.Infinity, ~layerToIgnore);
+        int layerToIgnore1 = 1 << 7;
+        //int layerToIgnore2 = 1 << 8;
+        RaycastHit2D hitInfoRight = Physics2D.Raycast(m_rigidbody.transform.position + new Vector3(0.3f, 0f, 0f), Vector2.down, Mathf.Infinity, ~layerToIgnore1/* | ~layerToIgnore2*/);
+        RaycastHit2D hitInfoLeft = Physics2D.Raycast(m_rigidbody.transform.position + new Vector3(-0.3f, 0f, 0f), Vector2.down, Mathf.Infinity, ~layerToIgnore1/* | ~layerToIgnore2*/);
         if (hitInfoRight.distance >= 0.6f && hitInfoLeft.distance >= 0.6f) PerformFreeFall();
     }
 

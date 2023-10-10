@@ -14,7 +14,7 @@ public class DoubleJump : Jump
         playerController = m_playerStateMachine.PlayerData.PlayerController;
     }
 
-    public override void HandleInput()
+    protected override void HandleInput()
     {
         base.HandleInput();
 

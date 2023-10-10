@@ -29,6 +29,11 @@ namespace Gabevlogd.Patterns
             //Debug.Log("OnCollisionEnter");
         }
 
+        public virtual void OnCollisionExit(Collision2D collision)
+        {
+            //Debug.Log("OnCollisionEnter");
+        }
+
         public virtual void OnFixedUpdate()
         {
             //Debug.Log("OnFixedUpdate");

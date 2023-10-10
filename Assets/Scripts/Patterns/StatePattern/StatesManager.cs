@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Gabevlogd.Patterns
 {
@@ -13,14 +14,7 @@ namespace Gabevlogd.Patterns
         public State<TStateIDType> CurrentState;
         public State<TStateIDType> PreviousState;
 
-        //public StatesManager(Dictionary<TStateIDType, State<TStateIDType>> allStates = null, State<TStateIDType> currentState = null, State<TStateIDType> previousState = null)
-        //{
-        //    AllStates = allStates;
-        //    CurrentState = currentState;
-        //    PreviousState = previousState;
-
-        //    //InitStatesManager();
-        //}
+        
 
         protected virtual void InitStatesManager()
         {

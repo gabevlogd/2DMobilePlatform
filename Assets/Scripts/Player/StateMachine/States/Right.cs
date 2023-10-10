@@ -6,7 +6,7 @@ public class Right : PlayerState
     private MobileInput playerInput;
     private PlayerMovement playerController;
     private SpriteRenderer spriteRenderer;
-    private Weapon playerWeapon;
+    private WeaponBase playerWeapon;
 
     public Right(Enumerators.PlayerState stateID, StatesManager<Enumerators.PlayerState> stateManager) : base(stateID, stateManager)
     {
@@ -20,8 +20,7 @@ public class Right : PlayerState
     {
         base.OnEnter();
         HandleInput();
-        spriteRenderer.flipX = false;
-        
+        spriteRenderer.flipX = false;        
     }
 
     public override void OnUpdate()
@@ -29,11 +28,11 @@ public class Right : PlayerState
         base.OnUpdate();
         HandleInput();
         playerController.MoveRight();
-        //playerController.GravityFallDetection();
+        playerController.GravityFallDetection();
         if (playerInput.AttackButton.IsPressed) playerWeapon.Shoot(Vector2.right);
     }
 
-    public override void HandleInput()
+    protected override void HandleInput()
     {
         base.HandleInput();
 

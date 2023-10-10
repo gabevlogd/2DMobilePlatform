@@ -9,7 +9,8 @@ public class Jump : PlayerState
 
     protected bool inAir;
     protected bool ceilingHitted;
-    protected bool isBouncing;
+    protected bool isBouncingLeft;
+    protected bool isBouncingRight;
     protected float startBounceTime;
     protected float inputDelayTime;
 
@@ -42,39 +43,7 @@ public class Jump : PlayerState
     public override void OnCollisionEnter(Collision2D collision)
     {
         base.OnCollisionEnter(collision);
-
-        if (collision.GetContact(0).normal.x > 0.7f)
-        {
-            //Debug.Log("1");
-            playerController.MoveRight();
-            startBounceTime = Time.time;
-            isBouncing = true;
-        }
-        else if (collision.GetContact(0).normal.x < -0.7f)
-        {
-            //Debug.Log("2");
-            playerController.MoveLeft();
-            startBounceTime = Time.time;
-            isBouncing = true;
-        }
-
-        if (collision.GetContact(0).normal.y > 0.5f)
-        {
-            if (collision.gameObject.layer == 6)
-            {
-                //Debug.Log("3");
-                inAir = false;
-                ceilingHitted = false;
-                return;
-            }
-
-        }
-        else if (collision.GetContact(0).normal.y < 0.5f)
-        {
-            //Debug.Log("4");
-            ceilingHitted = true;
-            playerController.ResetTime();
-        }
+        HandleCollisions(collision);
     }
 
     public override void OnFixedUpdate()
@@ -89,10 +58,10 @@ public class Jump : PlayerState
     {
         base.OnUpdate();
         HandleInput();
-        CheckHorizzontalInput();
+        CheckHorizontalInput();
     }
 
-    public override void HandleInput()
+    protected override void HandleInput()
     {
         base.HandleInput();
 
@@ -121,13 +90,23 @@ public class Jump : PlayerState
         }
     }
 
-    protected void CheckHorizzontalInput()
+    /// <summary>
+    /// Manages the horizontal movement during the jump
+    /// </summary>
+    protected void CheckHorizontalInput()
     {
         if (!playerInput.LeftButton.IsPressed && !playerInput.RightButton.IsPressed) playerController.StaySillHorizontally();
 
-        if (isBouncing)
+        if (isBouncingLeft)
         {
-            if ((Time.time - startBounceTime) >= inputDelayTime) isBouncing = false;
+            playerController.MoveLeft();
+            if ((Time.time - startBounceTime) >= inputDelayTime) isBouncingLeft = false;
+            return;
+        }
+        else if (isBouncingRight)
+        {
+            playerController.MoveRight();
+            if ((Time.time - startBounceTime) >= inputDelayTime) isBouncingRight = false;
             return;
         }
 
@@ -141,6 +120,44 @@ public class Jump : PlayerState
         {
             playerController.MoveRight();
             if (spriteRenderer.flipX) spriteRenderer.flipX = false;
+        }
+    }
+
+    /// <summary>
+    /// Handles the horizontal and vertical collision events
+    /// </summary>
+    /// <param name="collision"></param>
+    protected void HandleCollisions(Collision2D collision)
+    {
+        if (collision.GetContact(0).normal.x > 0.7f)
+        {
+            //Debug.Log("1");
+            startBounceTime = Time.time;
+            isBouncingRight = true;
+        }
+        else if (collision.GetContact(0).normal.x < -0.7f)
+        {
+            //Debug.Log("2");
+            startBounceTime = Time.time;
+            isBouncingLeft = true;
+        }
+
+        if (collision.GetContact(0).normal.y > 0.5f)
+        {
+            if (collision.gameObject.layer == 6)
+            {
+                //Debug.Log("3");
+                inAir = false;
+                ceilingHitted = false;
+                return;
+            }
+
+        }
+        else if (collision.GetContact(0).normal.y < 0.5f)
+        {
+            //Debug.Log("4");
+            ceilingHitted = true;
+            playerController.ResetTime();
         }
     }
 
