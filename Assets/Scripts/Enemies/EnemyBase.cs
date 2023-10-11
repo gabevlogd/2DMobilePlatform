@@ -9,6 +9,7 @@ public class EnemyBase : MonoBehaviour
     protected virtual void Awake()
     {
         Data.EnemyTransform = transform;
+        Data.Rigidbody = GetComponent<Rigidbody2D>();
         Data.EnemyMovementBase = new EnemyMovementBase(ref Data);
         Data.EnemyStateMachine = new EnemyStateMachine(ref Data);
     }
@@ -28,6 +29,11 @@ public class EnemyBase : MonoBehaviour
         Data.EnemyStateMachine.CurrentState.OnUpdate();
     }
 
+    private void FixedUpdate()
+    {
+        Data.EnemyStateMachine.CurrentState.OnFixedUpdate();
+    }
+
     protected virtual void DetectPlayerCollisions(Collider2D collision)
     {
         if (collision.gameObject.layer == 7 && Player.Hittable)
@@ -43,6 +49,8 @@ public struct EnemyData
 {
     public EnemyStateMachine EnemyStateMachine;
     public EnemyMovementBase EnemyMovementBase;
+    [HideInInspector]
+    public Rigidbody2D Rigidbody;
     [HideInInspector]
     public Transform EnemyTransform;
     //public Transform AvailableArea;

@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 3927264185744754647}
   - component: {fileID: 3540220441362168468}
   - component: {fileID: 8693757122921802596}
+  - component: {fileID: 8798631132950265058}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -131,10 +132,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data:
+    Rigidbody: {fileID: 0}
     EnemyTransform: {fileID: 0}
     PatrolNodes:
     - {fileID: 7457998251252525127, guid: be0dbfa73eec698429ecfe3b037fa486, type: 3}
     - {fileID: 8615647365805650960, guid: 231d0eda983df2b4086ca67e5aa389b5, type: 3}
+    NotAggressiveEnemy: 0
+    Speed: 0
 --- !u!61 &8693757122921802596
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -161,3 +165,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &8798631132950265058
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5272792939531657709}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4

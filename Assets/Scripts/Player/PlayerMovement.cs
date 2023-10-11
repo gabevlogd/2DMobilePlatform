@@ -21,7 +21,7 @@ public class PlayerMovement
         decelaration = 4f;
         acceleration = 4f;
         maxJumpHeight = 2f;
-        startJumpVelocity = Mathf.Sqrt(2f * -Physics.gravity.y * maxJumpHeight);
+        startJumpVelocity = Mathf.Sqrt(2f * /*-Physics.gravity.y*/9.81f * maxJumpHeight);
     }
 
     public void ResetTime() => time = 0f;

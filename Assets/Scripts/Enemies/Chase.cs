@@ -33,6 +33,12 @@ public class Chase : EnemyState
         enemyController.PerformChase();
     }
 
+    public override void OnFixedUpdate()
+    {
+        base.OnFixedUpdate();
+        enemyController.GravityFallDetection();
+    }
+
     protected override void HandleChangeState()
     {
         base.HandleChangeState();

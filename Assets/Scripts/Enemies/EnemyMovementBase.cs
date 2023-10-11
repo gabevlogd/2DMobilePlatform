@@ -5,22 +5,29 @@ using UnityEngine;
 public class EnemyMovementBase
 {
     private Transform enemyTransform;
+    private Rigidbody2D rigidbody;
     private List<Vector3> patrolNodes;
     private Vector3 targetPatrolNode;
     private int patrolNodesIndex;
     private float speed;
+    private float time;
 
     public EnemyMovementBase(ref EnemyData enemyData)
     {
+        rigidbody = enemyData.Rigidbody;
         enemyTransform = enemyData.EnemyTransform;
         patrolNodesIndex = 0;
         speed = enemyData.Speed;
         patrolNodes = new List<Vector3>();
-        foreach (Transform node in enemyData.PatrolNodes)
+        if (enemyData.PatrolNodes.Count >= 1)
         {
-            patrolNodes.Add(node.position);
+            foreach (Transform node in enemyData.PatrolNodes)
+            {
+                patrolNodes.Add(node.position);
+            }
+            targetPatrolNode = patrolNodes[patrolNodesIndex];
         }
-        targetPatrolNode = patrolNodes[patrolNodesIndex];
+        
     }
 
     public void PerformChase()
@@ -32,6 +39,7 @@ public class EnemyMovementBase
 
     public void PerformPatrol()
     {
+        if (patrolNodes.Count <= 1) return;
         if (Vector3.Distance(enemyTransform.position, targetPatrolNode) < 0.1f) 
             targetPatrolNode = GetNewNode();
 
@@ -48,4 +56,15 @@ public class EnemyMovementBase
 
         return patrolNodes[patrolNodesIndex];
     }
+
+    public void GravityFallDetection()
+    {
+        int layerToIgnore1 = 1 << 8;
+        RaycastHit2D hitInfoRight = Physics2D.Raycast(rigidbody.transform.position + new Vector3(0.3f, 0f, 0f), Vector2.down, Mathf.Infinity, ~layerToIgnore1);
+        RaycastHit2D hitInfoLeft = Physics2D.Raycast(rigidbody.transform.position + new Vector3(-0.3f, 0f, 0f), Vector2.down, Mathf.Infinity, ~layerToIgnore1);
+        if (hitInfoRight.distance >= 0.6f && hitInfoLeft.distance >= 0.6f) PerformFreeFall();
+    }
+
+    public void PerformFreeFall() => rigidbody.velocity = new Vector2(rigidbody.velocity.x, -9.81f * GetTime());
+    private float GetTime() => time += Time.deltaTime;
 }

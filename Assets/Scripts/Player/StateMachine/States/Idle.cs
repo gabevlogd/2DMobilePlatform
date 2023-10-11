@@ -29,9 +29,14 @@ public class Idle : PlayerState
     {
         base.OnUpdate();
         HandleInput();
-        playerController.GravityFallDetection();
         playerController.StaySillHorizontally();
         CheckShootTrigger();
+    }
+
+    public override void OnFixedUpdate()
+    {
+        base.OnFixedUpdate();
+        playerController.GravityFallDetection();
     }
 
     protected override void HandleInput()

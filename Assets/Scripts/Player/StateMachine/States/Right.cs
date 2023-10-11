@@ -28,8 +28,13 @@ public class Right : PlayerState
         base.OnUpdate();
         HandleInput();
         playerController.MoveRight();
-        playerController.GravityFallDetection();
         if (playerInput.AttackButton.IsPressed) playerWeapon.Shoot(Vector2.right);
+    }
+
+    public override void OnFixedUpdate()
+    {
+        base.OnFixedUpdate();
+        playerController.GravityFallDetection();
     }
 
     protected override void HandleInput()
